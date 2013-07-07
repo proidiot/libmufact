@@ -1,0 +1,92 @@
+Pseudocode for client:
+
+	$key_url := generate_key_url($url, $remote_master_pub_key)
+
+	$result := GET($key_url)
+
+	$conversation := new_CONVERSATION($result, $conversation_options)
+
+	if ($conversation is NULL) {
+		explode with no reply to server
+	}
+
+	if (need to register $pubkey) {
+		$reply := register_PUBKEY($conversation)
+		$prepared_reply := prepare_REPLY($conversation, $reply)
+		$result := POST($url, $prepared_reply)
+	} else {
+		$result := NULL
+	}
+
+	// this is the "reply loop"
+	while ($reply := next_REPLY($conversation, $result) is not NULL) {
+		if ($reply->type is RESPONSE) {
+			// these are the "request loops"
+			for each ($supported_request_type as $request_type) {
+				// this is a "request loop"
+				while ($rqst := next_REQUEST(
+							$conversation,
+							$request_type)
+						is not NULL) {
+					if (RESPONSE_TYPE_1 is acceptable
+							for $rqst) {
+						ask user for $type_1_info
+						ask user for $approval
+						add_RESPONSE_TYPE_1(
+							$reply,
+							$rqst,
+							$approval,
+							$type_1_info)
+					} else if (RESPONSE_TYPE_2 is
+							acceptable for $rqst) {
+						ask user for $type_2_info
+						ask user for $approval
+						add_RESPONSE_TYPE_2(
+							$reply,
+							$rqst,
+							$approval,
+							$type_2_info)
+					} ... else {
+						no_acceptable_response_type(
+							$reply,
+							$rqst)
+					}
+					// NOTE: sinze the request loops are
+					// unlikely to actually be in a for
+					// each loop in practice, which
+					// response type sections show up
+					// in each of these request loops will
+					// probably be different from request
+					// type to request type
+				}
+			}
+		} else if ($reply->type is OTHER_TYPE_THAT_NEEDS_INFO) {
+			add whatever info
+		} else if ($reply->type is YET_ANOTHER_TYPE_THAT_NEEDS_INFO) {
+			add whatever info
+		} ...
+
+		$prepared_reply := prepare_REPLY($conversation, $reply)
+		$result = POST($url, $prepared_reply)
+	}
+
+	end_CONVERSATION($conversation)
+
+	if (remote_master_key_revoked($conversation)) {
+		store that the remote master key is not to be trusted
+	} else if (accepting remote master key updates
+			and remote_master_key_updated($conversation)) {
+		store new remote master key
+		presumably this entire process will need to be run again
+	} else if (remote_temp_keys_revoked($conversation)) {
+		perform any retrospective actions
+	}
+
+	if (key_id_updated($conversation)) {
+		store new key id
+	}
+
+	perform any additional things with the conversation
+
+	destroy_CONVERSATION($conversation)
+
