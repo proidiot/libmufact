@@ -1,10 +1,12 @@
-#ifndef _LMF_CLIENT_H
-#define _LMF_CLIENT_H
+#ifndef _LMF_CLIENT_H_
+#define _LMF_CLIENT_H_
 
 #include <stdlib.h>
 #include <stdint.h>
 
-#ifndef _HAVE_BOOL_
+#ifdef _HAVE_BOOL_
+#include <stdbool.h>
+#else
 #define bool short
 #define true (1==1)
 #define false (1==0)
