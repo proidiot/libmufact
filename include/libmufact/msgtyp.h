@@ -1,0 +1,37 @@
+#ifndef LIBMUFACT_MSGTYP_H
+#define LIBMUFACT_MSGTYP_H
+
+#define LMF_MSGTYP_UNKNOWN 			0x00
+#define LMF_MSGTYP_ACK_UNKNOWN 			0x01
+#define LMF_MSGTYP_UNEXPECTED 			0x02
+#define LMF_MSGTYP_ACK_UNEXPECTED 		0x03
+#define LMF_MSGTYP_REVOKE 			0x04
+/* Actually sending this is very unsecure. */
+#define LMF_MSGTYP_ACK_REVOKE 			0x05
+#define LMF_MSGTYP_UPDATE 			0x06
+#define LMF_MSGTYP_ACK_UPDATE 			0x07
+#define LMF_MSGTYP_REGISTER 			0x08
+#define LMF_MSGTYP_ACK_REGISTER 		0x09
+#define LMF_MSGTYP_REUSE 			0x0A
+#define LMF_MSGTYP_ACK_REUSE 			0x0B
+#define LMF_MSGTYP_ASSIGN 			0x0C
+#define LMF_MSGTYP_ACK_ASSIGN 			0x0D
+#define LMF_MSGTYP_UPDATE_TEMP 			0x0E
+#define LMF_MSGTYP_ACK_UPDATE_TEMP 		0x0F
+#define LMF_MSGTYP_REVOKE_TEMPS 		0x10
+#define LMF_MSGTYP_ACK_REVOKE_TEMPS 		0x11
+#define LMF_MSGTYP_GET 				0x12
+/* A belligerent server might send this. */
+#define LMF_MSGTYP_ACK_GET 			0x13
+#define LMF_MSGTYP_REQUESTS 			0x14
+#define LMF_MSGTYP_ACK_REQUESTS 		0x15
+#define LMF_MSGTYP_RESPONSES 			0x16
+#define LMF_MSGTYP_ACK_RESPONSES 		0x17
+/* No more requests/responses to send. */
+#define LMF_MSGTYP_EXHAUSTED 			0x18
+#define LMF_MSGTYP_ACK_EXHAUSTED 		0x19
+#define LMF_MSGTYP_RESPONSE_ISSUES 		0x1A
+#define LMF_MSGTYP_ACK_RESPONSE_ISSUES 		0x1B
+
+
+#endif
